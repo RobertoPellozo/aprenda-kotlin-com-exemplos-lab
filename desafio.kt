@@ -1,25 +1,48 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { BASICO, INTERMEDIARIO, AVANCADO }
 
-enum class Nivel { Easy, Mediun, Hard }
+data class ConteudoEducacional(val nome: String, val duracao: Int) {
+    init {
+        require(duracao == 30 || duracao == 45 || duracao == 60) 
+    }
+}
 
-class Usuario
+data class Formacao(val nome: String, val nivel: Nivel, val conteudos: List<ConteudoEducacional>) {
+    val usuariosMatriculados = mutableListOf<Usuario>()
+}
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 20)
+data class Usuario(val nome: String) {
+    val formacoesMatriculadas = mutableListOf<Formacao>()
 
-data class Formacao(var nome: String, var conteudos: List<ConteudoEducacional>) {
-
-    val inscritos = mutableListOf<Usuario>()
-    
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricularEmFormacao(formacao: Formacao) {
+        formacoesMatriculadas.add(formacao)
+        formacao.usuariosMatriculados.add(this)
     }
 }
 
 fun main() {
-    val nivel = Nivel.Hard
-    val usuario = "Roberto"
-    ConteudoEducacional("Kotlin")
-    //TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    //TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val conteudo1 = ConteudoEducacional("Easy", 30)
+    val conteudo2 = ConteudoEducacional("Hard", 45)
+    val conteudo3 = ConteudoEducacional("Very Hard", 60)
+
+    val formacao1 = Formacao("Engenharia de Software", Nivel.INTERMEDIARIO, listOf(conteudo1))
+    val formacao2 = Formacao("Ciência de Dados", Nivel.AVANCADO, listOf(conteudo2))
+    val formacao3 = Formacao("Sistema de Informaçao", Nivel.BASICO, listOf(conteudo3))
+
+    val usuario1 = Usuario("Aluno 1")
+    val usuario2 = Usuario("Aluno 2")
+    val usuario3 = Usuario("Aluno 3")
+
+    usuario1.matricularEmFormacao(formacao1)
+    usuario2.matricularEmFormacao(formacao2)
+    usuario3.matricularEmFormacao(formacao3)
+
+    // Imprime informações sobre as formações de cada usuário
+    for (usuario in listOf(usuario1, usuario2, usuario3)) {
+        println("Usuário: ${usuario.nome}")
+        println("Formações Matriculadas:")
+        for (formacao in usuario.formacoesMatriculadas) {
+            println("Nome da Formação: ${formacao.nome}, Nível: ${formacao.nivel}")
+        }
+        println()
+    }
 }
-//Devido a minha dificuldade inicial ainda estou entendedo o conteudo e não consegui evoluir

@@ -39,7 +39,7 @@ fun main() {
     // Imprime informações sobre as formações de cada usuário
     for (usuario in listOf(usuario1, usuario2, usuario3)) {
         println("Usuário: ${usuario.nome}")
-        println("Formações Matriculadas:")
+        
         for (formacao in usuario.formacoesMatriculadas) {
             println("Nome da Formação: ${formacao.nome}, Nível: ${formacao.nivel}")
         }
